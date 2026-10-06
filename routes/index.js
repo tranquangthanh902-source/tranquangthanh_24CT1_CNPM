@@ -1,5 +1,6 @@
 const router=require('express').Router();
 const db=require('../database/init');
+const {isAuthenticated}=require('../middleware/auth');
 
 router.get('/',(req,res)=>{
   const stats={
@@ -10,7 +11,7 @@ router.get('/',(req,res)=>{
   res.render('landing',{title:'Trang chủ',stats});
 });
 
-router.get('/admin/dashboard',(req,res)=>{
+router.get('/admin/dashboard',isAuthenticated,(req,res)=>{
   const stats={
     books:db.prepare('SELECT COALESCE(SUM(quantity),0) c FROM books').get().c,
     readers:db.prepare('SELECT COUNT(*) c FROM readers').get().c,

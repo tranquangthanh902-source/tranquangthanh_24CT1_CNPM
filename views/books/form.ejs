@@ -1,6 +1,6 @@
 <%- include('../partials/header') %><div class="admin-layout"><%- include('../partials/sidebar') %><main class="admin-main">
 <div class="topbar"><div><span class="muted">Quản lý sách</span><h1><%= book?'Sửa sách':'Thêm sách' %></h1></div><a class="btn light-dark" href="/admin/books">Quay lại</a></div>
-<form class="panel form-grid" method="post" action="<%= book?'/admin/books/edit/'+book.id:'/admin/books/add'">
+<form class="panel form-grid" method="post" action="<%= book?'/admin/books/edit/'+book.id:'/admin/books/add' %>">
 <label>ISBN<input name="isbn" required value="<%= book?.isbn||'' %>"></label><label>Tên sách<input name="title" required value="<%= book?.title||'' %>"></label>
 <label>Tác giả<input name="author" required value="<%= book?.author||'' %>"></label><label>Nhà xuất bản<input name="publisher" value="<%= book?.publisher||'' %>"></label>
 <label>Năm xuất bản<input type="number" name="year" value="<%= book?.year||'' %>"></label><label>Danh mục<select name="category_id"><option value="">-- Chọn --</option><% categories.forEach(c=>{ %><option value="<%= c.id %>" <%= book?.category_id==c.id?'selected':'' %>><%= c.name %></option><% }) %></select></label>
