@@ -1,7 +1,7 @@
 <%- include('partials/header') %>
 <header class="landing-header">
   <a class="logo" href="/">Thư Viện Số</a>
-  <nav><a href="/">Trang chủ</a><a href="#features">Tính năng</a><a href="/search">Tra cứu sách</a><a href="/login">Đăng nhập</a></nav>
+  <nav><a href="/">Trang chủ</a><a href="#features">Tính năng</a><a href="/search">Tra cứu sách</a><% if (currentUser) { %><a href="/admin/dashboard">Dashboard</a><a href="/logout">Đăng xuất</a><% } else { %><a href="/login">Đăng nhập</a><% } %></nav>
 </header>
 <section class="hero">
   <div class="hero-overlay">
@@ -9,7 +9,7 @@
       <span class="eyebrow">LIBRARY MANAGEMENT SYSTEM</span>
       <h1>Hệ thống Quản lý Thư viện trực tuyến</h1>
       <p>Quản lý sách, bạn đọc và hoạt động mượn trả trong một nền tảng đơn giản, nhanh chóng.</p>
-      <div class="actions"><a class="btn primary" href="/search">Tra cứu sách</a><a class="btn light" href="/login">Đăng nhập quản trị</a></div>
+      <div class="actions"><a class="btn primary" href="/search">Tra cứu sách</a><% if (currentUser) { %><a class="btn light" href="/admin/dashboard">Vào Dashboard</a><% } else { %><a class="btn light" href="/login">Đăng nhập quản trị</a><% } %></div>
     </div>
   </div>
 </section>
