@@ -19,13 +19,24 @@ router.get('/logout',(req,res)=>{
 });
 router.get('/register',(req,res)=>res.render('register',{title:'Đăng ký'}));
 router.post('/register',(req,res)=>{
-  const {username,password,full_name,email}=req.body;
+  const username=(req.body.username||'').trim();
+  const password=req.body.password||'';
+  const full_name=(req.body.full_name||'').trim();
+  const email=(req.body.email||'').trim().toLowerCase();
   if(!username||!password||!full_name){req.flash('error','Vui lòng nhập đủ thông tin.');return res.redirect('/register');}
+  if(db.prepare('SELECT id FROM users WHERE username=?').get(username)){
+    req.flash('error','Tên đăng nhập đã tồn tại.');
+    return res.redirect('/register');
+  }
+  if(email && db.prepare('SELECT id FROM users WHERE email=?').get(email)){
+    req.flash('error','Email đã được sử dụng.');
+    return res.redirect('/register');
+  }
   try{
     const hash=bcrypt.hashSync(password,10);
     db.prepare('INSERT INTO users(username,password_hash,full_name,email) VALUES (?,?,?,?)').run(username,hash,full_name,email||'');
     req.flash('success','Đăng ký thành công. Bạn có thể đăng nhập.');
     res.redirect('/login');
-  }catch(e){req.flash('error','Tên đăng nhập đã tồn tại.');res.redirect('/register');}
+  }catch(e){req.flash('error','Không thể đăng ký tài khoản. Vui lòng thử lại.');res.redirect('/register');}
 });
 module.exports=router;
