@@ -45,7 +45,8 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', service: 'library-management' });
 });
 
-app.use('/admin', require('./middleware/auth').isAuthenticated);
+const auth = require('./middleware/auth');
+app.use('/admin', auth.isAuthenticated, auth.isAdmin);
 app.use('/admin/books', require('./routes/books'));
 app.use('/admin/readers', require('./routes/readers'));
 app.use('/admin/borrow', require('./routes/borrow'));

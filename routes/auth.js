@@ -34,7 +34,7 @@ router.post('/register',(req,res)=>{
   }
   try{
     const hash=bcrypt.hashSync(password,10);
-    db.prepare('INSERT INTO users(username,password_hash,full_name,email) VALUES (?,?,?,?)').run(username,hash,full_name,email||'');
+    db.prepare('INSERT INTO users(username,password_hash,full_name,email,role) VALUES (?,?,?,?,?)').run(username,hash,full_name,email||'','user');
     req.flash('success','Đăng ký thành công. Bạn có thể đăng nhập.');
     res.redirect('/login');
   }catch(e){req.flash('error','Không thể đăng ký tài khoản. Vui lòng thử lại.');res.redirect('/register');}
