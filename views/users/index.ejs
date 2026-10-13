@@ -1,0 +1,92 @@
+<%- include('../partials/header') %>
+
+<div class="container-fluid py-4">
+  <div class="row align-items-center mb-4">
+	<div class="col">
+	  <h1>Quản lý tài khoản</h1>
+	</div>
+  </div>
+
+  <%- include('../partials/flash') %>
+
+  <% if(users && users.length > 0) { %>
+	<div class="table-responsive">
+	  <table class="table table-hover table-striped">
+		<thead class="table-dark">
+		  <tr>
+			<th>ID</th>
+			<th>Tên đăng nhập</th>
+			<th>Tên đầy đủ</th>
+			<th>Email</th>
+			<th>Vai trò</th>
+			<th>Ngày đăng ký</th>
+			<th>Hành động</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <% users.forEach(user => { %>
+			<tr>
+			  <td><%= user.id %></td>
+			  <td><%= user.username %></td>
+			  <td><%= user.full_name %></td>
+			  <td><%= user.email || '(chưa cập nhật)' %></td>
+			  <td>
+				<% if(user.role === 'admin') { %>
+				  <span class="badge bg-danger">Admin</span>
+				<% } else { %>
+				  <span class="badge bg-secondary">User</span>
+				<% } %>
+			  </td>
+			  <td><%= user.created_at_display %></td>
+			  <td>
+				<div class="btn-group btn-group-sm" role="group">
+				  <a href="/admin/users/edit/<%= user.id %>" class="btn btn-primary" title="Chỉnh sửa">
+					<i class="bi bi-pencil"></i> Sửa
+				  </a>
+				  <% if(currentUser.id !== user.id) { %>
+					<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<%= user.id %>" title="Xóa">
+					  <i class="bi bi-trash"></i> Xóa
+					</button>
+				  <% } else { %>
+					<button type="button" class="btn btn-danger" disabled title="Không thể xóa chính mình">
+					  <i class="bi bi-trash"></i> Xóa
+					</button>
+				  <% } %>
+				</div>
+			  </td>
+			</tr>
+
+			<!-- Delete Modal -->
+			<% if(currentUser.id !== user.id) { %>
+			  <div class="modal fade" id="deleteModal<%= user.id %>" tabindex="-1">
+				<div class="modal-dialog">
+				  <div class="modal-content">
+					<div class="modal-header">
+					  <h5 class="modal-title">Xác nhận xóa</h5>
+					  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+					</div>
+					<div class="modal-body">
+					  Bạn có chắc chắn muốn xóa tài khoản <strong><%= user.username %></strong>?
+					</div>
+					<div class="modal-footer">
+					  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+					  <form method="POST" action="/admin/users/delete/<%= user.id %>" style="display:inline;">
+						<button type="submit" class="btn btn-danger">Xóa</button>
+					  </form>
+					</div>
+				  </div>
+				</div>
+			  </div>
+			<% } %>
+		  <% }); %>
+		</tbody>
+	  </table>
+	</div>
+  <% } else { %>
+	<div class="alert alert-info">
+	  Hiện không có tài khoản nào.
+	</div>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

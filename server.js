@@ -51,6 +51,7 @@ app.use('/admin/books', require('./routes/books'));
 app.use('/admin/readers', require('./routes/readers'));
 app.use('/admin/borrow', require('./routes/borrow'));
 app.use('/admin/reports', require('./routes/reports'));
+app.use('/admin/users', require('./routes/users'));
 
 app.use((req, res) => res.status(404).render('404', { title: 'Không tìm thấy trang' }));
 
