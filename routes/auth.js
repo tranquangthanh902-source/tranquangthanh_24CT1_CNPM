@@ -12,7 +12,7 @@ router.post('/login',(req,res)=>{
   }
   req.session.user={id:user.id,username:user.username,full_name:user.full_name,role:user.role};
   req.flash('success','Đăng nhập thành công.');
-  res.redirect('/admin/dashboard');
+  res.redirect(req.session.user.role === 'admin' ? '/admin/dashboard' : '/');
 });
 router.get('/logout',(req,res)=>{
   req.session.destroy(()=>res.redirect('/'));
