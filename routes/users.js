@@ -6,7 +6,7 @@ router.get('/',(req,res)=>{
   try{
     const users=db.prepare(`
       SELECT id, username, full_name, email, role, 
-             strftime('%d/%m/%Y %H:%M', created_at) as created_at_display
+             strftime('%d/%m/%Y %H:%M', created_at, '+7 hours') as created_at_display
       FROM users 
       ORDER BY created_at DESC
     `).all();
@@ -22,7 +22,7 @@ router.get('/edit/:id',(req,res)=>{
   try{
     const user=db.prepare(`
       SELECT id, username, full_name, email, role, 
-             strftime('%d/%m/%Y %H:%M', created_at) as created_at_display
+             strftime('%d/%m/%Y %H:%M', created_at, '+7 hours') as created_at_display
       FROM users 
       WHERE id=?
     `).get(req.params.id);
