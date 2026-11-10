@@ -1,5 +1,77 @@
 <%- include('partials/header') %>
-<div class="auth-page"><div class="auth-card"><h1>Đăng ký</h1><p>Tạo tài khoản quản trị mới</p>
-<form method="post" action="/register"><label>Họ và tên<input name="full_name" required></label><label>Email<input type="email" name="email"></label><label>Tên đăng nhập<input name="username" required></label><label>Mật khẩu<input type="password" name="password" minlength="6" required></label><button class="btn primary full">Đăng ký</button></form>
-<a href="/login" class="back">Đã có tài khoản? Đăng nhập</a></div></div>
+
+<div style="min-height: calc(100vh - 72px); display: flex; align-items: center; justify-content: center; background: #f6f8f9; padding: 40px 20px;">
+  <div style="width: 100%; max-width: 420px;">
+    <!-- Logo & Title -->
+    <div style="text-align: center; margin-bottom: 35px;">
+      <div style="display: inline-flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+        <i class="fa-solid fa-book-open" style="font-size: 32px; color: #268aa2;"></i>
+        <h1 style="margin: 0; font-size: 24px; color: #122c35;">Thư Viện Số</h1>
+      </div>
+      <p style="color: #70818a; margin: 0; font-size: 14px;">Tạo tài khoản để sử dụng dịch vụ</p>
+    </div>
+
+    <%- include('partials/flash') %>
+
+    <!-- Register Card -->
+    <div style="background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 5px 20px #00000009;">
+      <h2 style="margin: 0 0 8px; font-size: 20px; color: #122c35;">Đăng ký</h2>
+      <p style="color: #70818a; margin: 0 0 25px; font-size: 13px;">Điền đầy đủ thông tin để tạo tài khoản</p>
+
+      <form method="post" action="/register">
+        <label style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; font-weight: 600; color: #333;">
+          Tên đầy đủ
+          <input name="full_name" required
+            style="border: 1px solid #d8e1e5; border-radius: 8px; padding: 12px; background: #fff; outline: none; font-family: inherit; font-size: 14px;"
+            placeholder="Nguyễn Văn A"
+            onkeyup="this.style.borderColor = this.value ? '#268aa2' : '#d8e1e5'">
+        </label>
+
+        <label style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; font-weight: 600; color: #333;">
+          Email
+          <input type="email" name="email"
+            style="border: 1px solid #d8e1e5; border-radius: 8px; padding: 12px; background: #fff; outline: none; font-family: inherit; font-size: 14px;"
+            placeholder="your.email@example.com"
+            onkeyup="this.style.borderColor = this.value ? '#268aa2' : '#d8e1e5'">
+          <small style="color: #90a0a9; margin-top: 4px;">Không bắt buộc nhưng giúp khôi phục tài khoản</small>
+        </label>
+
+        <label style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; font-weight: 600; color: #333;">
+          Tên đăng nhập
+          <input name="username" required
+            style="border: 1px solid #d8e1e5; border-radius: 8px; padding: 12px; background: #fff; outline: none; font-family: inherit; font-size: 14px;"
+            placeholder="username"
+            onkeyup="this.style.borderColor = this.value ? '#268aa2' : '#d8e1e5'">
+          <small style="color: #90a0a9; margin-top: 4px;">Chỉ dùng chữ, số, gạch dưới</small>
+        </label>
+
+        <label style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 25px; font-weight: 600; color: #333;">
+          Mật khẩu
+          <input type="password" name="password" minlength="6" required
+            style="border: 1px solid #d8e1e5; border-radius: 8px; padding: 12px; background: #fff; outline: none; font-family: inherit; font-size: 14px;"
+            placeholder="Tối thiểu 6 ký tự"
+            onkeyup="this.style.borderColor = this.value ? '#268aa2' : '#d8e1e5'">
+          <small style="color: #90a0a9; margin-top: 4px;">Dùng chữ hoa, số và ký tự đặc biệt để bảo mật tốt hơn</small>
+        </label>
+
+        <button type="submit" class="btn primary full">
+          Tạo tài khoản
+        </button>
+      </form>
+
+      <!-- Links -->
+      <div style="text-align: center; border-top: 1px solid #edf0f1; padding-top: 20px; margin-top: 20px;">
+        <p style="margin: 0; color: #70818a; font-size: 13px;">
+          Đã có tài khoản? <a href="/login" style="color: #268aa2; font-weight: 600; text-decoration: none;">Đăng nhập ngay</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <p style="text-align: center; color: #90a0a9; font-size: 12px; margin-top: 20px;">
+      Thư Viện Số © 2024 - Hệ thống quản lý thư viện trực tuyến
+    </p>
+  </div>
+</div>
+
 <%- include('partials/footer') %>

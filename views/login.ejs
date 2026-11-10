@@ -1,37 +1,72 @@
 <%- include('partials/header') %>
-<div class="auth-page">
-  <div class="auth-card">
-    <div class="auth-icon"><i class="fa-solid fa-book-open"></i></div>
-    <h1>Đăng nhập</h1>
-    <p>Đăng nhập vào hệ thống quản lý thư viện</p>
+
+<div style="min-height: calc(100vh - 72px); display: flex; align-items: center; justify-content: center; background: #f6f8f9; padding: 40px 20px;">
+  <div style="width: 100%; max-width: 420px;">
+    <!-- Logo & Title -->
+    <div style="text-align: center; margin-bottom: 35px;">
+      <div style="display: inline-flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+        <i class="fa-solid fa-book-open" style="font-size: 32px; color: #268aa2;"></i>
+        <h1 style="margin: 0; font-size: 24px; color: #122c35;">Thư Viện Số</h1>
+      </div>
+      <p style="color: #70818a; margin: 0; font-size: 14px;">Hệ thống quản lý thư viện trực tuyến</p>
+    </div>
 
     <%- include('partials/flash') %>
 
-    <!-- Traditional Login Form -->
-    <form method="post" action="/login">
-      <label>Tên đăng nhập
-        <input name="username" required autocomplete="username">
-      </label>
-      <label>Mật khẩu
-        <input type="password" name="password" required autocomplete="current-password">
-      </label>
-      <button class="btn primary full">Đăng nhập</button>
-    </form>
+    <!-- Login Card -->
+    <div style="background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 5px 20px #00000009;">
+      <h2 style="margin: 0 0 8px; font-size: 20px; color: #122c35;">Đăng nhập</h2>
+      <p style="color: #70818a; margin: 0 0 25px; font-size: 13px;">Nhập thông tin tài khoản của bạn</p>
 
-    <!-- Divider -->
-    <div style="display: flex; align-items: center; margin: 20px 0; gap: 10px;">
-      <div style="flex: 1; height: 1px; background: #ddd;"></div>
-      <span style="color: #999; font-size: 13px;">HOẶC</span>
-      <div style="flex: 1; height: 1px; background: #ddd;"></div>
+      <!-- Traditional Login Form -->
+      <form method="post" action="/login">
+        <label style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; font-weight: 600; color: #333;">
+          Tên đăng nhập
+          <input name="username" required autocomplete="username" 
+            style="border: 1px solid #d8e1e5; border-radius: 8px; padding: 12px; background: #fff; outline: none; font-family: inherit; font-size: 14px;"
+            onkeyup="this.style.borderColor = this.value ? '#268aa2' : '#d8e1e5'">
+        </label>
+
+        <label style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 25px; font-weight: 600; color: #333;">
+          Mật khẩu
+          <input type="password" name="password" required autocomplete="current-password" 
+            style="border: 1px solid #d8e1e5; border-radius: 8px; padding: 12px; background: #fff; outline: none; font-family: inherit; font-size: 14px;"
+            onkeyup="this.style.borderColor = this.value ? '#268aa2' : '#d8e1e5'">
+        </label>
+
+        <button type="submit" class="btn primary full" style="margin-bottom: 15px;">
+          Đăng nhập
+        </button>
+      </form>
+
+      <!-- Divider -->
+      <div style="display: flex; align-items: center; margin: 20px 0; gap: 10px;">
+        <div style="flex: 1; height: 1px; background: #edf0f1;"></div>
+        <span style="color: #90a0a9; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">hoặc</span>
+        <div style="flex: 1; height: 1px; background: #edf0f1;"></div>
+      </div>
+
+      <!-- Google OAuth Login -->
+      <a href="/auth/google" style="display: flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid #d8e1e5; border-radius: 8px; padding: 12px; background: #fff; color: #333; text-decoration: none; font-weight: 600; font-size: 14px; margin-bottom: 20px; transition: all 0.2s;">
+        <i class="fa-brands fa-google" style="font-size: 16px;"></i>
+        <span>Đăng nhập bằng Gmail</span>
+      </a>
+
+      <!-- Links -->
+      <div style="text-align: center; border-top: 1px solid #edf0f1; padding-top: 20px;">
+        <p style="margin: 0 0 12px; color: #70818a; font-size: 13px;">
+          Chưa có tài khoản? <a href="/register" style="color: #268aa2; font-weight: 600; text-decoration: none;">Đăng ký ngay</a>
+        </p>
+        <a href="/" style="color: #268aa2; font-weight: 600; text-decoration: none; font-size: 13px;">← Quay lại trang chủ</a>
+      </div>
     </div>
 
-    <!-- Google OAuth Login -->
-    <a href="/auth/google" class="btn" style="background: #fff; color: #333; border: 1px solid #ddd; width: 100%; margin-bottom: 15px; text-align: center;">
-      <i class="fa-brands fa-google" style="margin-right: 8px;"></i> Đăng nhập bằng Gmail
-    </a>
-
-    <a href="/register" class="back">Chưa có tài khoản? Đăng ký</a>
-    <a href="/" class="back">← Về trang chủ</a>
+    <!-- Footer -->
+    <p style="text-align: center; color: #90a0a9; font-size: 12px; margin-top: 20px;">
+      Thư Viện Số © 2024 - Hệ thống quản lý thư viện trực tuyến
+    </p>
   </div>
 </div>
+
 <%- include('partials/footer') %>
+
