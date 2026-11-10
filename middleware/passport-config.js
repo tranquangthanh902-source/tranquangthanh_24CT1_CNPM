@@ -3,11 +3,13 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const db = require('../database/init');
 const bcrypt = require('bcrypt');
 
-passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: `${process.env.APP_URL || 'http://localhost:3000'}/auth/google/callback`
-}, (accessToken, refreshToken, profile, done) => {
+// Only configure Google OAuth if credentials are provided
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: `${process.env.APP_URL || 'http://localhost:3000'}/auth/google/callback`
+  }, (accessToken, refreshToken, profile, done) => {
   try {
     // Check if user exists
     let user = db.prepare('SELECT * FROM users WHERE email=?').get(profile.emails[0].value);
@@ -32,7 +34,8 @@ passport.use(new GoogleStrategy({
   } catch (err) {
     return done(err);
   }
-}));
+  }));
+}
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
