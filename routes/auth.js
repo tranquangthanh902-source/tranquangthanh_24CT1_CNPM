@@ -6,12 +6,12 @@ const passport=require('passport');
 router.get('/login',(req,res)=>res.render('login',{title:'Đăng nhập'}));
 router.post('/login',(req,res)=>{
   const {username,password}=req.body;
-  const user=db.prepare('SELECT * FROM users WHERE username=?').get(username);
+  const user=db.prepare('SELECT * FROM users WHERE email=?').get(username);
   if(!user || !bcrypt.compareSync(password,user.password_hash)){
-    req.flash('error','Tên đăng nhập hoặc mật khẩu không đúng.');
+    req.flash('error','Email hoặc mật khẩu không đúng.');
     return res.redirect('/login');
   }
-  req.session.user={id:user.id,username:user.username,full_name:user.full_name,role:user.role};
+  req.session.user={id:user.id,username:user.username,full_name:user.full_name,role:user.role,email:user.email};
   req.flash('success','Đăng nhập thành công.');
   res.redirect(req.session.user.role === 'admin' ? '/admin/dashboard' : '/');
 });
