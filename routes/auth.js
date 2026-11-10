@@ -35,8 +35,18 @@ router.get('/auth/google/callback', passport.authenticate('google', { failureRed
 
 router.get('/logout',(req,res)=>{
   req.logout((err) => {
-    if (err) return res.status(500).send(err);
-    req.session.destroy(()=>res.redirect('/'));
+    if (err) {
+      req.flash('error', 'Lỗi khi đăng xuất.');
+      return res.redirect('/');
+    }
+    req.session.destroy((err) => {
+      if (err) {
+        return res.redirect('/');
+      }
+      res.clearCookie('connect.sid'); // Clear session cookie
+      req.flash('success', 'Đã đăng xuất thành công.');
+      res.redirect('/');
+    });
   });
 });
 
