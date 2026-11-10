@@ -56,20 +56,51 @@ router.post('/register',(req,res)=>{
   const password=req.body.password||'';
   const full_name=(req.body.full_name||'').trim();
   const email=(req.body.email||'').trim().toLowerCase();
-  if(!username||!password||!full_name){req.flash('error','Vui lòng nhập đủ thông tin.');return res.redirect('/register');}
+
+  // Validate required fields
+  if(!username||!password||!full_name){
+    req.flash('error','Vui lòng nhập đủ thông tin.');
+    return res.redirect('/register');
+  }
+
+  // Check password length
+  if(password.length < 6){
+    req.flash('error','Mật khẩu phải có ít nhất 6 ký tự.');
+    return res.redirect('/register');
+  }
+
+  // Check duplicate username
   if(db.prepare('SELECT id FROM users WHERE username=?').get(username)){
     req.flash('error','Tên đăng nhập đã tồn tại.');
     return res.redirect('/register');
   }
+
+  // Check duplicate email
   if(email && db.prepare('SELECT id FROM users WHERE email=?').get(email)){
     req.flash('error','Email đã được sử dụng.');
     return res.redirect('/register');
   }
+
   try{
     const hash=bcrypt.hashSync(password,10);
-    db.prepare('INSERT INTO users(username,password_hash,full_name,email,role) VALUES (?,?,?,?,?)').run(username,hash,full_name,email||'','user');
+    const result = db.prepare('INSERT INTO users(username,password_hash,full_name,email,role) VALUES (?,?,?,?,?)').run(
+      username,
+      hash,
+      full_name,
+      email||'',
+      'user'
+    );
+
+    if(!result.changes){
+      throw new Error('Insert không thành công');
+    }
+
     req.flash('success','Đăng ký thành công. Bạn có thể đăng nhập.');
     res.redirect('/login');
-  }catch(e){req.flash('error','Không thể đăng ký tài khoản. Vui lòng thử lại.');res.redirect('/register');}
+  }catch(e){
+    console.error('Registration error:', e);
+    req.flash('error','Không thể đăng ký tài khoản. Vui lòng thử lại.');
+    res.redirect('/register');
+  }
 });
 module.exports=router;
