@@ -1,6 +1,7 @@
 const router=require('express').Router();
 const bcrypt=require('bcrypt');
 const db=require('../database/init');
+const passport=require('passport');
 
 router.get('/login',(req,res)=>res.render('login',{title:'Đăng nhập'}));
 router.post('/login',(req,res)=>{
@@ -14,9 +15,31 @@ router.post('/login',(req,res)=>{
   req.flash('success','Đăng nhập thành công.');
   res.redirect(req.session.user.role === 'admin' ? '/admin/dashboard' : '/');
 });
-router.get('/logout',(req,res)=>{
-  req.session.destroy(()=>res.redirect('/'));
+
+// Google OAuth routes
+router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
+  // Successful authentication
+  const user = req.user;
+  req.session.user = {
+    id: user.id,
+    username: user.username,
+    full_name: user.full_name,
+    role: user.role,
+    email: user.email
+  };
+  req.flash('success', `Đăng nhập thành công. Xin chào ${user.full_name}!`);
+  res.redirect(user.role === 'admin' ? '/admin/dashboard' : '/');
 });
+
+router.get('/logout',(req,res)=>{
+  req.logout((err) => {
+    if (err) return res.status(500).send(err);
+    req.session.destroy(()=>res.redirect('/'));
+  });
+});
+
 router.get('/register',(req,res)=>res.render('register',{title:'Đăng ký'}));
 router.post('/register',(req,res)=>{
   const username=(req.body.username||'').trim();

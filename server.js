@@ -3,6 +3,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const path = require('path');
 const db = require('./database/init');
+const passport = require('./middleware/passport-config');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -30,8 +31,12 @@ app.use(session({
 }));
 app.use(flash());
 
+// Passport initialization
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use((req, res, next) => {
-  res.locals.currentUser = req.session.user || null;
+  res.locals.currentUser = req.session.user || req.user || null;
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
   next();
