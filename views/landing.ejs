@@ -1,7 +1,7 @@
 <%- include('partials/header') %>
 <header class="landing-header">
   <a class="logo" href="/">Thư Viện Số</a>
-  <nav><a href="/">Trang chủ</a><a href="#features">Tính năng</a><a href="/search">Tra cứu sách</a><% if (currentUser?.role==='admin') { %><a href="/admin/dashboard">Dashboard</a><a href="/logout">Đăng xuất</a><% } else if (!currentUser) { %><a href="/login">Đăng nhập</a><% } %></nav>
+  <nav><a href="/">Trang chủ</a><a href="#features">Tính năng</a><a href="/search">Tra cứu sách</a><% if (currentUser?.role==='admin') { %><a href="/admin/dashboard">Dashboard</a><% } %><% if (currentUser) { %><a href="/logout">Đăng xuất</a><% } else { %><a href="/login">Đăng nhập</a><% } %></nav>
 </header>
 <section class="hero">
   <div class="hero-overlay">
